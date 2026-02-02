@@ -16,7 +16,7 @@ Este plan detalla 5 tareas técnicas para mejorar el sitio web, enfocándose en 
    - [x] Implementar el formulario usando etiquetas `<form>`, `<label>`, `<input>` y `<textarea>`.
    - [x] Incluir campos para: Nombre completo, Correo electrónico, Teléfono y Mensaje. Añadir atributos de accesibilidad (`aria-label`, `for`).
 
-4. **Estilizado Neón del Formulario**
+4. [x] **Estilizado Neón del Formulario**
    - Aplicar estilos CSS al formulario para integrarlo con el tema oscuro.
    - Configurar `background-color: black` (o transparente) y color de texto neón para los inputs.
    - Añadir bordes brillantes (`box-shadow` o `border`) con colores neón (verde/azul/amarillo) que reaccionen al estado `:focus`.
