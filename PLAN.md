@@ -9,7 +9,7 @@ Este plan detalla 5 tareas técnicas para mejorar el sitio web, enfocándose en 
 2. [x] [x] [x] [x] [x] [x] **Implementación de Media Queries para Diseño Adaptativo**
    -[x] Crear puntos de ruptura (breakpoints) en el CSS para móviles (max-width: 768px) y tablets.
    - [x] Ajustar la navegación para que sea amigable en móviles (ej. menú hamburguesa o lista apilada).
-   - Modificar las propiedades de `flex-direction` o `grid-template-columns` para que los elementos se apilen verticalmente en pantallas pequeñas.
+   - [x] Modificar las propiedades de `flex-direction` o `grid-template-columns` para que los elementos se apilen verticalmente en pantallas pequeñas.
 
 3. **Desarrollo de la Estructura HTML del Formulario de Contacto**
    - Crear una nueva sección `<section id="contacto">` en el archivo HTML.
