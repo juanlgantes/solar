@@ -20,3 +20,5 @@
 - [2026-02-02 20:57] Completada/Verificada: '- Aplicar estilos CSS al formulario para...'
 
 - [2026-02-02 21:09] Completada/Verificada: '- Configurar `background-color: black` (...'
+
+- [2026-02-02 21:27] Completada/Verificada: '- Añadir bordes brillantes (`box-shadow`...'
