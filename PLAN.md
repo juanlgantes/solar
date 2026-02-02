@@ -2,7 +2,7 @@
 
 Este plan detalla 5 tareas técnicas para mejorar el sitio web, enfocándose en la responsividad y la adición de un formulario de contacto, manteniendo el diseño de fondo negro con letras neón.
 
-1. **Configuración del Viewport y Estructura Base Responsive**
+- [x] **Configuración del Viewport y Estructura Base Responsive**
    - Verificar y asegurar la presencia del meta tag `<meta name="viewport" content="width=device-width, initial-scale=1.0">` en el `head` del HTML.
    - Refactorizar los contenedores principales CSS para usar unidades relativas (%, rem, vw/vh) en lugar de píxeles fijos, permitiendo que el contenido fluya naturalmente.
 
