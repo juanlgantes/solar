@@ -6,7 +6,7 @@ Este plan detalla 5 tareas técnicas para mejorar el sitio web, enfocándose en 
    - [x] Verificar y asegurar la presencia del meta tag `<meta name="viewport" content="width=device-width, initial-scale=1.0">` en el `head` del HTML.
    - [x] Refactorizar los contenedores principales CSS para usar unidades relativas (%, rem, vw/vh) en lugar de píxeles fijos, permitiendo que el contenido fluya naturalmente.
 
-2. **Implementación de Media Queries para Diseño Adaptativo**
+2. [x] **Implementación de Media Queries para Diseño Adaptativo**
    - Crear puntos de ruptura (breakpoints) en el CSS para móviles (max-width: 768px) y tablets.
    - Ajustar la navegación para que sea amigable en móviles (ej. menú hamburguesa o lista apilada).
    - Modificar las propiedades de `flex-direction` o `grid-template-columns` para que los elementos se apilen verticalmente en pantallas pequeñas.
