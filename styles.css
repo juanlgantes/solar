@@ -17,7 +17,7 @@ body {
     color: var(--text-color);
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    font-size: 16px;
+    font-size: 100%;
 }
 
 header {
@@ -62,7 +62,7 @@ section {
     margin-bottom: 4rem;
     padding: 2rem;
     border: 1px solid var(--neon-blue);
-    border-radius: 10px;
+    border-radius: 0.625rem;
     box-shadow: 0 0 10px var(--neon-blue);
 }
 
