@@ -12,3 +12,5 @@
 - [2026-02-02 20:13] Completada/Verificada: '- Crear una nueva sección `<section id="...'
 
 - [2026-02-02 20:24] Completada/Verificada: '- Implementar el formulario usando etiqu...'
+
+- [2026-02-02 20:34] Completada/Verificada: '- Incluir campos para: Nombre completo, ...'

@@ -14,7 +14,7 @@ Este plan detalla 5 tareas técnicas para mejorar el sitio web, enfocándose en 
 3. [x] **Desarrollo de la Estructura HTML del Formulario de Contacto**
    - [x] Crear una nueva sección `<section id="contacto">` en el archivo HTML.
    - [x] Implementar el formulario usando etiquetas `<form>`, `<label>`, `<input>` y `<textarea>`.
-   - Incluir campos para: Nombre completo, Correo electrónico, Teléfono y Mensaje. Añadir atributos de accesibilidad (`aria-label`, `for`).
+   - [x] Incluir campos para: Nombre completo, Correo electrónico, Teléfono y Mensaje. Añadir atributos de accesibilidad (`aria-label`, `for`).
 
 4. **Estilizado Neón del Formulario**
    - Aplicar estilos CSS al formulario para integrarlo con el tema oscuro.
