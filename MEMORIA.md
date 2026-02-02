@@ -18,3 +18,5 @@
 - [2026-02-02 20:46] Completada/Verificada: '4. **Estilizado Neón del Formulario**...'
 
 - [2026-02-02 20:57] Completada/Verificada: '- Aplicar estilos CSS al formulario para...'
+
+- [2026-02-02 21:09] Completada/Verificada: '- Configurar `background-color: black` (...'
