@@ -7,7 +7,7 @@ Este plan detalla 5 tareas técnicas para mejorar el sitio web, enfocándose en 
    - [x] Refactorizar los contenedores principales CSS para usar unidades relativas (%, rem, vw/vh) en lugar de píxeles fijos, permitiendo que el contenido fluya naturalmente.
 
 2. [x] [x] [x] [x] [x] [x] **Implementación de Media Queries para Diseño Adaptativo**
-   - Crear puntos de ruptura (breakpoints) en el CSS para móviles (max-width: 768px) y tablets.
+   -[x] Crear puntos de ruptura (breakpoints) en el CSS para móviles (max-width: 768px) y tablets.
    - Ajustar la navegación para que sea amigable en móviles (ej. menú hamburguesa o lista apilada).
    - Modificar las propiedades de `flex-direction` o `grid-template-columns` para que los elementos se apilen verticalmente en pantallas pequeñas.
 

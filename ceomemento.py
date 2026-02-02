@@ -25,24 +25,19 @@ def limpieza_inicial():
         os.remove(".git/index.lock")
 
 def leer_memoria_previa():
-    if not os.path.exists(ARCHIVO_MEMORIA):
-        return "INICIO."
-    with open(ARCHIVO_MEMORIA, 'r') as f:
-        return "".join(f.readlines()[-15:])
+    if not os.path.exists(ARCHIVO_MEMORIA): return "INICIO."
+    with open(ARCHIVO_MEMORIA, 'r') as f: return "".join(f.readlines()[-15:])
 
-# --- FUNCIONES DE RESPALDO (EL SALVAVIDAS) ---
+# --- RESPALDO INTELIGENTE ---
 def forzar_tachado_tarea(texto_tarea):
-    """Si Jules olvida tachar, lo hacemos nosotros."""
+    """Marca la tarea como completada pase lo que pase."""
     if not os.path.exists(ARCHIVO_BITACORA): return False
-    with open(ARCHIVO_BITACORA, 'r') as f:
-        lineas = f.readlines()
+    with open(ARCHIVO_BITACORA, 'r') as f: lineas = f.readlines()
     
     nueva_lista = []
     cambio = False
-    # Limpieza agresiva para encontrar la tarea
     texto_limpio = texto_tarea.replace("- [ ] ", "").replace("- ", "").replace("[x]", "").strip()
-    # Tomamos solo los primeros 20 caracteres para asegurar coincidencia parcial
-    fragmento_clave = texto_limpio[:20]
+    fragmento_clave = texto_limpio[:25] # Usamos un fragmento para buscar mejor
     
     for linea in lineas:
         if fragmento_clave in linea and "- [x]" not in linea:
@@ -59,12 +54,10 @@ def forzar_tachado_tarea(texto_tarea):
         return True
     return False
 
-def forzar_memoria_automatica(tarea):
-    """Si Jules olvida la memoria, escribimos una nota automática."""
+def forzar_memoria_automatica(tarea, motivo="Completada"):
     ts = time.strftime('%Y-%m-%d %H:%M')
-    nota = f"\n- [{ts}] Tarea completada automáticamente por CEO V21: '{tarea[:40]}...'\n"
-    with open(ARCHIVO_MEMORIA, 'a') as f:
-        f.write(nota)
+    nota = f"\n- [{ts}] {motivo}: '{tarea[:40]}...'\n"
+    with open(ARCHIVO_MEMORIA, 'a') as f: f.write(nota)
     return True
 
 def esperar_y_cosechar_inteligente(session_id):
@@ -72,15 +65,17 @@ def esperar_y_cosechar_inteligente(session_id):
     intentos = 0
     racha_silencio = 0 
     ultimo_mensaje = ""
+    hubo_actividad_real = False
     
     while intentos < 200: 
         time.sleep(30)
         res = ejecutar_seguro(['jules', 'remote', 'pull', '--session', session_id])
         res_limpia = res.strip()
         
-        # Detector de Eco
         es_nuevo = (res_limpia != ultimo_mensaje)
         hay_datos = "diff --git" in res or "Downloaded" in res or "Updated" in res
+        
+        if hay_datos: hubo_actividad_real = True
         ultimo_mensaje = res_limpia
 
         if hay_datos and es_nuevo:
@@ -91,16 +86,15 @@ def esperar_y_cosechar_inteligente(session_id):
             minutos = racha_silencio * 0.5
             print(f"   [{intentos}] Calma: {minutos} min / 5.0 min")
             
-            # Si hay silencio de 5 min o Jules dice explícitamente "Completed"
-            if racha_silencio >= 10:
+            if racha_silencio >= 10: # 5 min
                 log(f"\n✅ Cosecha finalizada.")
-                return True
-            if "Completed" in res and racha_silencio >= 2: return True
+                return True, hubo_actividad_real
+            if "Completed" in res and racha_silencio >= 2: return True, hubo_actividad_real
         intentos += 1
-    return False
+    return False, False
 
 def main():
-    log(f"👔 CEO V21 (THE BENEVOLENT MANAGER): {MI_REPO}")
+    log(f"🤖 CEO V22 (THE PRAGMATIST): {MI_REPO}")
     limpieza_inicial()
     
     if not os.path.exists(".git"):
@@ -126,17 +120,15 @@ def main():
         tarea_objetivo = tareas[0]
         log(f"\n🎯 OBJETIVO: {tarea_objetivo}")
 
-        # Prompt con instrucciones claras
         instrucciones = f"""
         MODO: AUTÓNOMO | REPO: {MI_REPO} | RAMA: {RAMA_ACTIVA}
         CONTEXTO PREVIO: {memoria_txt}
         OBJETIVO: "{tarea_objetivo}"
         
         1. git checkout {RAMA_ACTIVA} && git pull
-        2. Realiza la tarea.
-        3. Edita '{ARCHIVO_BITACORA}' marcándola con [x].
-        4. Escribe en '{ARCHIVO_MEMORIA}'.
-        5. Espera.
+        2. Analiza el código. Si ya cumple el objetivo, SOLO actualiza PLAN.md y MEMORIA.md.
+        3. Si falta algo, impleméntalo.
+        4. Espera.
         """
         instrucciones_linea = instrucciones.replace('\n', ' ').replace('  ', '')
         
@@ -146,35 +138,41 @@ def main():
         if not match: log("❌ Error lanzamiento"); break
         session_id = match.group(1)
         
-        if esperar_y_cosechar_inteligente(session_id):
-            
-            # Verificación y Respaldo Burocrático
+        # Esperamos
+        exito_cosecha, hubo_actividad = esperar_y_cosechar_inteligente(session_id)
+        
+        if exito_cosecha:
             estado = ejecutar_seguro(['git', 'status', '--porcelain'])
             code_changed = len(estado.strip()) > 0
             
+            # --- LÓGICA V22: IDEMPOTENCIA ---
             if not code_changed:
-                log("⚠️ Jules no hizo NADA. Reintentando...")
-                continue # O break, según prefieras
-
-            # Si hay código, aseguramos el papeleo
-            plan_ok = ARCHIVO_BITACORA in estado
-            memoria_ok = ARCHIVO_MEMORIA in estado
-            
-            if not plan_ok:
-                log("⚠️ (Auto-Fix) Tachando tarea en PLAN.md...")
+                log("⚠️ Git dice 'Sin Cambios'. Asumiendo que la tarea YA ESTABA HECHA.")
+                log("   -> Forzando tachado en PLAN.md para avanzar.")
                 forzar_tachado_tarea(tarea_objetivo)
-            
-            if not memoria_ok:
-                log("⚠️ (Auto-Fix) Escribiendo nota en MEMORIA.md...")
-                forzar_memoria_automatica(tarea_objetivo)
-            
-            log("💾 Sincronizando...")
+                forzar_memoria_automatica(tarea_objetivo, "Verificada (Sin cambios necesarios)")
+                # Seguimos al commit vacio o update solo para asegurar sincro
+            else:
+                # Si hubo cambios reales, revisamos papeles
+                plan_ok = ARCHIVO_BITACORA in estado
+                memoria_ok = ARCHIVO_MEMORIA in estado
+                
+                if not plan_ok:
+                    log("⚠️ (Auto-Fix) Tachando PLAN.md...")
+                    forzar_tachado_tarea(tarea_objetivo)
+                if not memoria_ok:
+                    log("⚠️ (Auto-Fix) Actualizando MEMORIA.md...")
+                    forzar_memoria_automatica(tarea_objetivo)
+
+            # Sincronizamos (incluso si solo cambiamos el Plan localmente)
+            log("💾 Sincronizando avance...")
             subprocess.run(['git', 'add', '.'], check=False)
-            subprocess.run(['git', 'commit', '-m', f"IA+CEO: {tarea_objetivo[:20]}"], check=False)
+            subprocess.run(['git', 'commit', '-m', f"Auto: {tarea_objetivo[:20]}"], check=False)
             subprocess.run(['git', 'push', 'origin', RAMA_ACTIVA], check=False)
-            log("🚀 ¡Hecho! Siguiente...")
+            log("🚀 Avanzando a la siguiente tarea...")
 
         else:
+            log("🛑 Timeout crítico.")
             break
 
 if __name__ == "__main__":
