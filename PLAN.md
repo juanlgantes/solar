@@ -12,7 +12,7 @@ Este plan detalla 5 tareas técnicas para mejorar el sitio web, enfocándose en 
    - [x] Modificar las propiedades de `flex-direction` o `grid-template-columns` para que los elementos se apilen verticalmente en pantallas pequeñas.
 
 3. [x] **Desarrollo de la Estructura HTML del Formulario de Contacto**
-   - Crear una nueva sección `<section id="contacto">` en el archivo HTML.
+   - [x] Crear una nueva sección `<section id="contacto">` en el archivo HTML.
    - Implementar el formulario usando etiquetas `<form>`, `<label>`, `<input>` y `<textarea>`.
    - Incluir campos para: Nombre completo, Correo electrónico, Teléfono y Mensaje. Añadir atributos de accesibilidad (`aria-label`, `for`).
 
